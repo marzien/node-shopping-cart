@@ -16,7 +16,7 @@ module.exports.getUsers = function(callback, limit){
 };
 
 // Add User
-module.exports.addUser = function(user, limit) {
+module.exports.addUser = function(user, callback) {
     User.create(user, callback);
 };
 
@@ -24,8 +24,11 @@ module.exports.addUser = function(user, limit) {
 module.exports.updateUser = function(id, user, options, callback) {
     var query = {_id: id};
     var update = {
-        firstName: user.firstName
+        firstName: user.firstName,
+        secondName: user.secondName,
+        money: user.money
     };
+    //console.log(update);
     User.findOneAndUpdate(query, update, options, callback);
 };
 

@@ -23,7 +23,7 @@ module.exports.getProductById = function(id, callback){
 };
 
 // Add Product
-module.exports.addProduct = function(product, limit) {
+module.exports.addProduct = function(product, callback) {
     Product.create(product, callback);
 };
 
@@ -37,6 +37,7 @@ module.exports.updateProduct = function(id, product, options, callback) {
         quantity: product.quantity,
         price: product.price
     };
+    console.log(update);
     Product.findOneAndUpdate(query, update, options, callback);
 };
 

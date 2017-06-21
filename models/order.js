@@ -10,3 +10,7 @@ var orderSchema = new Schema({
 });
 
 var Order = module.exports = mongoose.model('Order', orderSchema);
+
+module.exports.createOrder = function(product, limit) {
+    Product.create(product, callback);
+};
