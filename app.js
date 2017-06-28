@@ -15,7 +15,7 @@ mongoose.connect('mongodb://localhost/shopping-cart');
 var db = mongoose.connection;
 
 app.get('/', function(req, res) {
-    res.send('Please use /users or /products');
+    res.send('Please use: /users, /products or /order?product=productIDe&quantity=X&user=userID');
 });
 
 app.get('/products', function(req, res){
@@ -90,11 +90,11 @@ app.post('/users', function(req, res){
 app.put('/users/:_id', function(req, res){
     var id = req.params._id;
     var user = req.body;
-    User.updateUser(id, user, {new:true}, function(err, user1){
+    User.updateUser(id, user, {new:true}, function(err, user){
         if(err){
             throw err;
         }
-        res.json(user1);
+        res.json(user);
     });
 });
 
@@ -110,35 +110,37 @@ app.delete('/users/:_id', function(req, res){
 
 
 //---------------------------------------------------------------------
-app.post('/products/:_id', function(req, res){
-    var productId = req.query.product;
-    var quantityOder = req.query.quantity;
-    var userId = req.query.user;
+app.post('/order', function(req, res){
+    //console.log(req.params);
+    var productID = req.query.product;
+    var quantity = req.query.quantity;
+    var userID = req.query.user;
 
-    /*
-     var productQuant = ???   //how much we have on shop?
-     var productPrice = ???
-     var userMoney = ???      //how much money have user?
+    Promise.all([
+        User.getUserMoney(userID), //grazinti userMoney
+        Product.getProductData(productID) //grazinti productQuant productPrice
+    ]).then((values => {
+            let userMoney = values[0];
+    let productQuant = values[1];
+    let productPrice = values[2];
 
-     if (!(quantityOder <= productQuant)) {
-     res.send('ERROR: not enought products!');
-     } elseif (!(userMoney >= productQuant*productPrice)) {
-     res.send('ERROR: user don't have enought money!');
-     } else {
-     //createOrder list          POST
-     //deduct money from user    PUT
-     //update Product qauntity	PUT
-     };
+    if (orderQuantity > productQuantity) {
+        console.log('Not enough product quantity in shop');
+    } else if (userMoney < productPrice * orderQuantity) {
+        console.log('Not enough users money for purchase');
+    } else {
+        //createOrder          POST--how???
+        Order.createOrder(userID, productID, quantity, function(err, user){
+            if(err) {
+                throw err;
+            }
+            console.log('Order created!');
+        });
+        //deduct money from user    PUT
 
-
-     */
-
-    Order.createOrder(product, function(err, product){
-        if(err){
-            throw err;
-        }
-        res.json(product);
-    })
+        //update Product quantity	PUT
+    }
+}))
 });
 
 //---------------------------------------------------------------------

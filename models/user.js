@@ -37,3 +37,25 @@ module.exports.removeUser = function(id, callback) {
     var query = {_id: id};
     User.remove(query, callback);
 };
+
+//----------------------------------------------------------------------------------------
+// module.exports.getUserMoney = function(id, callback) {
+//     //var query = {_id: id};
+//     User.findById(id, 'money', callback);
+// };
+
+//Promise for getUserMoney
+module.exports.getUserMoney = (id, callback) => {
+    return new Promise ((resolve, reject) = > {
+        User.findById(id, 'money', (err, user) => {
+            if(err){
+                reject(err);
+            }
+            else{
+                userMoney = user.money;
+                //res.json(userMoney);
+                resolve(userMoney);
+            }
+        })
+    }
+}

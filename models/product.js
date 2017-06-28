@@ -37,7 +37,6 @@ module.exports.updateProduct = function(id, product, options, callback) {
         quantity: product.quantity,
         price: product.price
     };
-    console.log(update);
     Product.findOneAndUpdate(query, update, options, callback);
 };
 
@@ -46,3 +45,19 @@ module.exports.removeProduct = function(id, callback) {
     var query = {_id: id};
     Product.remove(query, callback);
 };
+//-----------------------------------------------------------------------
+//Promise to get product data for order
+module.exports.getProductData = (id, callback) => {
+    return new Promise ((resolve, reject) = > {
+            User.findById(id, ['quantity', 'price'], (err, product) => {
+            if(err) {
+                reject(err);
+            }
+            else{
+                productQuant = product.quantity;
+            let productPrice = product.price;
+            resolve(productQuant, productPrice);
+            }
+        })
+    }
+}
