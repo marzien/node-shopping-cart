@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
-var app = express();
+let app = express();
 
 app.use(bodyParser.json());
 
@@ -12,7 +12,7 @@ Order = require('./models/order');
 
 // Connect to Mongoose
 mongoose.connect('mongodb://localhost/shopping-cart');
-var db = mongoose.connection;
+let db = mongoose.connection;
 
 app.get('/', function(req, res) {
     res.send('Please use: /users, /products or /order?product=productIDe&quantity=X&user=userID');
@@ -37,7 +37,7 @@ app.get('/products/:_id', function(req, res){
 });
 
 app.post('/products', function(req, res){
-    var product = req.body;
+    let product = req.body;
     Product.addProduct(product, function(err, product){
         if(err){
             throw err;
@@ -47,8 +47,8 @@ app.post('/products', function(req, res){
 });
 
 app.put('/products/:_id', function(req, res){
-    var id = req.params._id;
-    var product = req.body;
+    let id = req.params._id;
+    let product = req.body;
     Product.updateProduct(id, product, {}, function(err, product){
         if(err){
             throw err;
@@ -59,7 +59,7 @@ app.put('/products/:_id', function(req, res){
 
 //WORKS
 app.delete('/products/:_id', function(req, res){
-    var id = req.params._id;
+    let id = req.params._id;
     Product.removeProduct(id, function(err, product){
         if(err){
             throw err;
@@ -78,7 +78,7 @@ app.get('/users', function(req, res){
 });
 
 app.post('/users', function(req, res){
-    var user = req.body;
+    let user = req.body;
     User.addUser(user, function(err, user){
         if(err){
             throw err;
@@ -88,8 +88,8 @@ app.post('/users', function(req, res){
 });
 
 app.put('/users/:_id', function(req, res){
-    var id = req.params._id;
-    var user = req.body;
+    let id = req.params._id;
+    let user = req.body;
     User.updateUser(id, user, {new:true}, function(err, user){
         if(err){
             throw err;
@@ -99,7 +99,7 @@ app.put('/users/:_id', function(req, res){
 });
 
 app.delete('/users/:_id', function(req, res){
-    var id = req.params._id;
+    let id = req.params._id;
     User.removeUser(id, function(err, user){
         if(err){
             throw err;
@@ -109,38 +109,59 @@ app.delete('/users/:_id', function(req, res){
 });
 
 
-//---------------------------------------------------------------------
+//-------------------------------Order logic--------------------------------------
 app.post('/order', function(req, res){
     //console.log(req.params);
-    var productID = req.query.product;
-    var quantity = req.query.quantity;
-    var userID = req.query.user;
+    let productID = req.query.product;
+    let orderQuant = req.query.quantity;
+    let userID = req.query.user;
 
     Promise.all([
-        User.getUserMoney(userID), //grazinti userMoney
-        Product.getProductData(productID) //grazinti productQuant productPrice
-    ]).then((values => {
-            let userMoney = values[0];
-    let productQuant = values[1];
-    let productPrice = values[2];
+        User.getUserMoney(userID), //give back userMoney
+        Product.getProductData(productID) //give back productQuant productPrice
+    ]).then(values => {
+        let userMoney = values[0];
+        let productQuant = values[1][0];
+        let productPrice = values[1][1];
+        console.log('User money: ', userMoney);
+        console.log('Product quant in shop: ', productQuant);
+        console.log('Product price: ', productPrice);
+        console.log('Order quantity ', orderQuant);
+        // checking conditions
+        if (orderQuant > productQuant) {
+            console.log('Not enough product quantity in shop');
+        } else if (userMoney < productPrice * orderQuant) {
+            console.log('Not enough users money for purchase');
+        } else {
+            // create Order record
+            Order.createOrder(userID, productID, orderQuant, function(err, user){
+                if(err) {
+                    throw err;
+                }
+                console.log('Order created!');
+            });
+            // deduct money from user
+            let newUserMoney = userMoney-(productPrice * orderQuant);
+            User.deductUserMoney(userID, newUserMoney, {new:true}, function(err, user){
+                // {new:true} - printout new value
+                if(err){
+                    throw err;
+                }
+                res.json(user);
+                console.log('User money updated!');
+            });
 
-    if (orderQuantity > productQuantity) {
-        console.log('Not enough product quantity in shop');
-    } else if (userMoney < productPrice * orderQuantity) {
-        console.log('Not enough users money for purchase');
-    } else {
-        //createOrder          POST--how???
-        Order.createOrder(userID, productID, quantity, function(err, user){
-            if(err) {
-                throw err;
-            }
-            console.log('Order created!');
-        });
-        //deduct money from user    PUT
-
-        //update Product quantity	PUT
-    }
-}))
+            // update Product quantity
+            let newProductQuant = productQuant - orderQuant;
+            Product.updateProductQuantity(productID, newProductQuant, {new:true}, function(err, product){
+                if(err){
+                    throw err;
+                }
+                //res.json(product);
+                console.log('Product quantity updated!');
+            });
+        }
+    })
 });
 
 //---------------------------------------------------------------------

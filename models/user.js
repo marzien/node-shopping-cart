@@ -2,13 +2,13 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 // User Schema
-var userSchema = new Schema({
+let userSchema = new Schema({
     firstName: {type: String, required: true},
     lastName: {type: String, required: true},
     money: {type: Number, required: true}
 });
 
-var User = module.exports = mongoose.model('User', userSchema);
+let User = module.exports = mongoose.model('User', userSchema);
 
 // Get Users
 module.exports.getUsers = function(callback, limit){
@@ -22,8 +22,8 @@ module.exports.addUser = function(user, callback) {
 
 // Update User
 module.exports.updateUser = function(id, user, options, callback) {
-    var query = {_id: id};
-    var update = {
+    let query = {_id: id};
+    let update = {
         firstName: user.firstName,
         secondName: user.secondName,
         money: user.money
@@ -34,28 +34,33 @@ module.exports.updateUser = function(id, user, options, callback) {
 
 // Delete User
 module.exports.removeUser = function(id, callback) {
-    var query = {_id: id};
+    let query = {_id: id};
     User.remove(query, callback);
 };
 
 //----------------------------------------------------------------------------------------
-// module.exports.getUserMoney = function(id, callback) {
-//     //var query = {_id: id};
-//     User.findById(id, 'money', callback);
-// };
-
 //Promise for getUserMoney
 module.exports.getUserMoney = (id, callback) => {
-    return new Promise ((resolve, reject) = > {
+    return new Promise ((resolve, reject) => {
         User.findById(id, 'money', (err, user) => {
             if(err){
                 reject(err);
             }
             else{
-                userMoney = user.money;
+                var userMoney = user.money;
                 //res.json(userMoney);
                 resolve(userMoney);
             }
         })
-    }
-}
+    })
+};
+
+// Deduct User Money
+module.exports.deductUserMoney = function(id, newMoney, options, callback) {
+    let query = {_id: id};
+    let update = {
+        money: newMoney
+    };
+    //console.log(update);
+    User.findOneAndUpdate(query, update, options, callback);
+};

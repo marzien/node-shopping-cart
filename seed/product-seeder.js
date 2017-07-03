@@ -1,10 +1,10 @@
 var Product = require('../models/product');
 
-var mongoose = require('mongoose');
+const mongoose = require('mongoose');
 
 mongoose.connect('localhost:27017/shopping-cart');
 
-var products =  [
+let products =  [
     new Product({
         title: 'Wood Garner Dining Chairs, Set Of 2',
         type: 'furniture',
@@ -70,8 +70,8 @@ var products =  [
     })
 ];
 
-var done = 0;
-for (var i = 0; i < products.length; i++) {
+let done = 0;
+for (let i = 0; i < products.length; i++) {
     products[i].save(function(err, result) {
         done++;
         if (done === products.length) {

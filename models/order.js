@@ -2,22 +2,21 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 // User Schema
-var orderSchema = new Schema({
-    user: {type: String},      //NEED User Ref
-    product: {type: String},   //NEED Product Ref
+let orderSchema = new Schema({
+    user: {type: Schema.Types.ObjectId, ref: 'User'},      //NEED User Ref to user by ID
+    product: {type: Schema.Types.ObjectId, ref: 'Product'},   //NEED Product Ref to product by ID
     quantity: {type: Number, required: true},
     createdOn: {type: Date, default: Date.now}
 });
 
-var Order = module.exports = mongoose.model('Order', orderSchema);
+let Order = module.exports = mongoose.model('Order', orderSchema);
 
 // Create oder
 module.exports.createOrder = function(userID, productID, quantity, callback) {
     order = {
         "user": userID,
         "product": productID,
-        "quantity": quantity,
-        "createdOn": Date.now
+        "quantity": quantity
     };
     Order.create(order, callback);
 };
