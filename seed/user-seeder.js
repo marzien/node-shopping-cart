@@ -1,10 +1,10 @@
-var User = require('../models/user');
+const User = require('../models/user');
 
-var mongoose = require('mongoose');
+const mongoose = require('mongoose');
 
 mongoose.connect('localhost:27017/shopping-cart');
 
-var users =  [
+let users =  [
     new User({
         firstName: 'testuser1f',
         secondName: 'testuser1s',
@@ -12,12 +12,12 @@ var users =  [
     }),
     new User({
         firstName: 'testuser2f',
-        secondName: 'testuser1s',
+        secondName: 'testuser2s',
         money: 200
     }),
     new User({
         firstName: 'testuser3f',
-        secondName: 'testuser1s',
+        secondName: 'testuser3s',
         money: 300
     }),
     new User({
@@ -27,13 +27,13 @@ var users =  [
     }),
     new User({
         firstName: 'testuser5f',
-        secondName: 'testuser1s',
+        secondName: 'testuser5s',
         money: 500
     })
 ];
 
-var done = 0;
-for (var i = 0; i < users.length; i++) {
+let done = 0;
+for (let i = 0; i < users.length; i++) {
     users[i].save(function(err, result) {
         done++;
         if (done === users.length) {
