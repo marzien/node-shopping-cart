@@ -1,9 +1,9 @@
 # Products
 
-1. List all products
-1. GET `path/products`
+List all products
+GET `path/products`
 
-1.Get product by id
+Get product by id
 GET `path/products/:id`
 
 Add new product
