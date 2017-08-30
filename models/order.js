@@ -11,6 +11,12 @@ let orderSchema = new Schema({
 
 let Order = module.exports = mongoose.model('Order', orderSchema);
 
+// Get orders
+module.exports.getOrders = function(callback, limit){
+    Order.find(callback).limit(limit);
+};
+
+
 // Create oder
 module.exports.createOrder = function(userID, productID, quantity, callback) {
     order = {

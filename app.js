@@ -111,6 +111,16 @@ app.delete('/users/:_id', function(req, res){
 
 
 //-------------------------------Order logic--------------------------------------
+
+app.get('/orders', function(req, res){
+    Order.getOrders(function(err, orders){
+        if(err){
+            throw err;
+        }
+        res.json(orders);
+    })
+});
+
 app.post('/order', function(req, res){
     //console.log(req.params);
     let productID = req.query.product;
