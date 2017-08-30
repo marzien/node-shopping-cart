@@ -1,35 +1,35 @@
---------Products--------
+# Products
 
-+List all products
-GET `path/products`
+1. List all products
+1. GET `path/products`
 
-+Get product by id
+1.Get product by id
 GET `path/products/:id`
 
-+Add new product
+Add new product
 POST `path/products`
 
-+Update product
+Update product
 PUT `path/products/:id`
 
-+Remove product
+Remove product
 DELETE `path/products/:id`
 
----------Users----------
+# Users
 
-+List all users
+List all users
 GET `path/users`
 
-+Add new user
+Add new user
 POST `path/users`
 
-+Update user
+Update user
 PUT `path/users/:id`
 
-+Remove user
+Remove user
 DELETE `path/users/:id`
 
----------Order----------
+# Order
 
 Get all orders
 GET `path/orders`
