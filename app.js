@@ -11,7 +11,8 @@ User = require('./models/user');
 Order = require('./models/order');
 
 // Connect to Mongoose
-mongoose.connect('mongodb://localhost/shopping-cart');
+//mongoose.connect('mongodb://localhost/shopping-cart'); //local DB
+mongoose.connect('mongodb://admin:user123@ds157833.mlab.com:57833/shopping-cart');
 let db = mongoose.connection;
 
 app.get('/', function(req, res) {

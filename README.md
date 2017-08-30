@@ -6,7 +6,7 @@ GET path/products
 +Get product by id
 GET path/products/:id
 
-+Add new products
++Add new product
 POST path/products
 
 +Update product
