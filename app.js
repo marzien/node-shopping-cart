@@ -16,13 +16,17 @@ mongoose.connect('mongodb://admin:user123@ds157833.mlab.com:57833/shopping-cart'
 let db = mongoose.connection;
 
 app.get('/', function(req, res) {
-    res.send('Please use: /users, /products or /order?product=productIDe&quantity=X&user=userID');
+    res.send('Please use:'+ '<br/>'
+        +' /users '+ '<br/>'
+        +'/products'+ '<br/>'
+        +'/orders'+ '<br/>'+ ' or '
+        +'/order?product=productIDe&quantity=X&user=userID');
 });
 
 app.get('/products', function(req, res){
     Product.getProducts(function(err, products){
         if(err){
-            throw err;
+            console.log('Error: no products');
         }
         res.json(products);
     })
@@ -31,9 +35,10 @@ app.get('/products', function(req, res){
 app.get('/products/:_id', function(req, res){
     Product.getProductById(req.params._id, function(err, product){
         if(err){
-            throw err;
+            console.log('Error: ' + err.value + ' is wrong ID');
         }
         res.json(product);
+
     })
 });
 
@@ -41,7 +46,7 @@ app.post('/products', function(req, res){
     let product = req.body;
     Product.addProduct(product, function(err, product){
         if(err){
-            throw err;
+            console.log('Error: ' + err.message);
         }
         res.json(product);
     })
@@ -52,18 +57,17 @@ app.put('/products/:_id', function(req, res){
     let product = req.body;
     Product.updateProduct(id, product, {}, function(err, product){
         if(err){
-            throw err;
+            console.log('Error: ' + err.message);
         }
         res.json(product);
     })
 });
 
-//WORKS
 app.delete('/products/:_id', function(req, res){
     let id = req.params._id;
     Product.removeProduct(id, function(err, product){
         if(err){
-            throw err;
+            console.log('Error: ' + err.value + ' is wrong ID');
         }
         res.json(product);
     });
@@ -72,7 +76,7 @@ app.delete('/products/:_id', function(req, res){
 app.get('/users', function(req, res){
     User.getUsers(function(err, users){
         if(err){
-            throw err;
+            console.log('Error: no users');
         }
         res.json(users);
     })
@@ -82,7 +86,7 @@ app.post('/users', function(req, res){
     let user = req.body;
     User.addUser(user, function(err, user){
         if(err){
-            throw err;
+            console.log('Error: ' + err.message);
         }
         res.json(user);
     })
@@ -93,7 +97,7 @@ app.put('/users/:_id', function(req, res){
     let user = req.body;
     User.updateUser(id, user, {new:true}, function(err, user){
         if(err){
-            throw err;
+            console.log('Error: ' + err.message);
         }
         res.json(user);
     });
@@ -103,7 +107,7 @@ app.delete('/users/:_id', function(req, res){
     let id = req.params._id;
     User.removeUser(id, function(err, user){
         if(err){
-            throw err;
+            console.log('Error: ' + err.value + ' is wrong ID');
         }
         res.json(user);
     });
@@ -115,7 +119,7 @@ app.delete('/users/:_id', function(req, res){
 app.get('/orders', function(req, res){
     Order.getOrders(function(err, orders){
         if(err){
-            throw err;
+            console.log('Error: ' + err.message);
         }
         res.json(orders);
     })
@@ -156,7 +160,7 @@ app.post('/order', function(req, res){
             User.deductUserMoney(userID, newUserMoney, {new:true}, function(err, user){
                 // {new:true} - printout new value
                 if(err){
-                    throw err;
+                    console.log('Error ' + err.message);
                 }
                 res.json(user);
                 console.log('User money updated!');
@@ -166,7 +170,7 @@ app.post('/order', function(req, res){
             let newProductQuant = productQuant - orderQuant;
             Product.updateProductQuantity(productID, newProductQuant, {new:true}, function(err, product){
                 if(err){
-                    throw err;
+                    console.log('Error ' + err.message);
                 }
                 //res.json(product);
                 console.log('Product quantity updated!');
