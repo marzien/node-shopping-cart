@@ -10,9 +10,18 @@ Product = require('./models/product');
 User = require('./models/user');
 Order = require('./models/order');
 
+var port = process.env.PORT || 3000;
+var uristring = 'mongodb://admin:user123@ds157833.mlab.com:57833/shopping-cart'  ||  //mLab DB
+                'mongodb://localhost/shopping-cart';                                 //local DB
+
 // Connect to Mongoose
-//mongoose.connect('mongodb://localhost/shopping-cart'); //local DB
-mongoose.connect('mongodb://admin:user123@ds157833.mlab.com:57833/shopping-cart');
+mongoose.connect(uristring, function (err, res) {
+    if (err) {
+        console.log('ERROR connecting to: ' + uristring + '. ' + err);
+    } else {
+        console.log('Succeeded connected to: ' + uristring);
+    }
+});
 let db = mongoose.connection;
 
 app.get('/', function(req, res) {
@@ -181,7 +190,7 @@ app.post('/order', function(req, res){
 
 //---------------------------------------------------------------------
 
-app.listen(3000);
+app.listen(port);
 console.log('Running on port 3000');
 
 //---------------------------------------------------------------------
