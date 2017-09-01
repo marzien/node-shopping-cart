@@ -37,6 +37,6 @@ GET `path/orders`
 Make order:
 POST `/path/order?product=prId&quantity=1&user=userId`
 
-Using Postman: 
-POST `{{url}}/order?product=594666fdb58f233c5064a01e&quantity=1&user=5946d1212fbc446de82bd68b`
+Sample POST request: 
+`http://localhost:3000/order?product=59a011bef36d281bbd02a88d&quantity=2&user=59a01041f36d281bbd02a7ed`
 
