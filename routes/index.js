@@ -3,7 +3,7 @@ const router = express.Router();
 
 //Middle ware that is specific to this router
 router.use(function timeLog(req, res, next) {
-  console.log('Index route');
+  //console.log('Index route');
   next();
 });
 

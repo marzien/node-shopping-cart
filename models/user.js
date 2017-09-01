@@ -44,7 +44,7 @@ module.exports.getUserMoney = (id, callback) => {
     return new Promise ((resolve, reject) => {
         User.findById(id, 'money', (err, user) => {
             if(err){
-                reject(err);
+                console.log('Error: can\'t get user money. ' + err.message);
             }
             else{
                 var userMoney = user.money;

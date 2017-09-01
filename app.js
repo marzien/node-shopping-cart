@@ -14,8 +14,8 @@ Order = require('./models/order');
 
 //Routes
 app.use(require('./routes/index'));
-app.use("/product",require('./routes/product-route'));
-app.use("/user",require('./routes/user-route'));
+app.use("/products",require('./routes/product-route'));
+app.use("/users",require('./routes/user-route'));
 app.use("/order",require('./routes/order-route'));
 
 var port = process.env.PORT || 3000;

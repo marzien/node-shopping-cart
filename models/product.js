@@ -51,7 +51,7 @@ module.exports.getProductData = (id, callback) => {
     return new Promise ((resolve, reject) => {
         Product.findById(id, ['quantity', 'price'], (err, product) => {
             if(err) {
-                reject(err);
+                console.log('Error: can\'t get product quantity and price ' + err.message);
             }
             else{
                 let productQuant = product.quantity;
