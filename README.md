@@ -4,16 +4,16 @@ List all products
 GET `path/products`
 
 Get product by id
-GET `path/products/:id`
+GET `path/product/:id`
 
 Add new product
-POST `path/products`
+POST `path/product`
 
 Update product
-PUT `path/products/:id`
+PUT `path/product/:id`
 
 Remove product
-DELETE `path/products/:id`
+DELETE `path/product/:id`
 
 # Users
 
@@ -21,13 +21,13 @@ List all users
 GET `path/users`
 
 Add new user
-POST `path/users`
+POST `path/user`
 
 Update user
-PUT `path/users/:id`
+PUT `path/user/:id`
 
 Remove user
-DELETE `path/users/:id`
+DELETE `path/user/:id`
 
 # Order
 

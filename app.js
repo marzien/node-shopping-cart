@@ -10,13 +10,11 @@ Product = require('./models/product');
 User = require('./models/user');
 Order = require('./models/order');
 
-//app.use(express.static('public'));
-
 //Routes
 app.use(require('./routes/index'));
-app.use("/products",require('./routes/product-route'));
-app.use("/users",require('./routes/user-route'));
-app.use("/order",require('./routes/order-route'));
+app.use(require('./routes/product-route'));
+app.use(require('./routes/user-route'));
+app.use(require('./routes/order-route'));
 
 var port = process.env.PORT || 3000;
 var uristring = 'mongodb://admin:user123@ds157833.mlab.com:57833/shopping-cart'  ||  //mLab DB
@@ -32,7 +30,6 @@ mongoose.connect(uristring, function (err, res) {
 });
 
 let db = mongoose.connection;
-
 
 app.listen(port);
 console.log('Running on port 3000');

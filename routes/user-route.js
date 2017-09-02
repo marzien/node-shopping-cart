@@ -8,7 +8,7 @@ router.use(function timeLog(req, res, next) {
 });
 
 //  User page routes
-router.get('/', function(req, res){
+router.get('/users', function(req, res){
     User.getUsers(function(err, users){
         if(err){
             console.log('Error: no users');
@@ -17,7 +17,7 @@ router.get('/', function(req, res){
     })
 });
 
-router.post('/', function(req, res){
+router.post('/user', function(req, res){
     let user = req.body;
     User.addUser(user, function(err, user){
         if(err){
@@ -27,7 +27,7 @@ router.post('/', function(req, res){
     })
 });
 
-router.put('/:_id', function(req, res){
+router.put('/user/:_id', function(req, res){
     let id = req.params._id;
     let user = req.body;
     User.updateUser(id, user, {new:true}, function(err, user){
@@ -38,7 +38,7 @@ router.put('/:_id', function(req, res){
     });
 });
 
-router.delete('/:_id', function(req, res){
+router.delete('/user/:_id', function(req, res){
     let id = req.params._id;
     User.removeUser(id, function(err, user){
         if(err){

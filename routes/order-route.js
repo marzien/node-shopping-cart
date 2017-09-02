@@ -8,7 +8,7 @@ router.use(function timeLog(req, res, next) {
 });
 
 //  Order page routes
-router.get('/', function(req, res){
+router.get('/orders', function(req, res){
     Order.getOrders(function(err, orders){
         if(err){
             console.log('Error: ' + err.message);
@@ -17,7 +17,7 @@ router.get('/', function(req, res){
     })
 });
 
-router.post('/', function(req, res){
+router.post('/order', function(req, res){
     //console.log(req.params);
     let productID = req.query.product;
     let orderQuant = req.query.quantity;
@@ -43,7 +43,7 @@ router.post('/', function(req, res){
             // create Order record
             Order.createOrder(userID, productID, orderQuant, function(err, user){
                 if(err) {
-                    throw err;
+                    console.log('Error ' + err.message);
                 }
                 console.log('Order created!');
             });
