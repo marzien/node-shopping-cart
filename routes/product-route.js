@@ -1,12 +1,6 @@
 const express = require('express');
 const router = express.Router();
 
-//Middle ware that is specific to this router
-router.use(function timeLog(req, res, next) {
-  //console.log('Product route');
-  next();
-});
-
 //  Product page routes
 router.get('/products', function(req, res){
     Product.getProducts(function(err, products){
