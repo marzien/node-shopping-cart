@@ -8,9 +8,29 @@ GET `path/product/:id`
 
 Add new product
 POST `path/product`
+Sample body:
+``` 
+   {
+   	"title" : "TEST",
+    "type" : "food",
+    "url" : "link",
+    "quantity" : 10,
+    "price" : 3.33
+   }
+```
 
 Update product
 PUT `path/product/:id`
+Sample body:
+```
+  {
+   	"title" : "TEST UPDATE",
+    "type" : "food",
+    "url" : "link",
+    "quantity" : 10,
+    "price" : 3.33
+   }
+```
 
 Remove product
 DELETE `path/product/:id`
@@ -22,9 +42,25 @@ GET `path/users`
 
 Add new user
 POST `path/user`
+Sample body:
+```
+  {
+   	"firstName" : "Jim",
+    "lastName" : "Kerry",
+    "money" : 100
+   }
+```
 
 Update user
 PUT `path/user/:id`
+Sample body:
+```
+  {
+   	"firstName" : "Jim",
+    "lastName" : "Kerry",
+    "money" : 200
+   }
+```
 
 Remove user
 DELETE `path/user/:id`
