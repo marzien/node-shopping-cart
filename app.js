@@ -16,7 +16,7 @@ app.use(require('./routes/product-route'));
 app.use(require('./routes/user-route'));
 app.use(require('./routes/order-route'));
 
-var port = process.env.PORT || 3000;
+var port = process.env.PORT || 4000;
 var uristring = 'mongodb://admin:user123@ds157833.mlab.com:57833/shopping-cart'  ||  //mLab DB
                 'mongodb://localhost/shopping-cart';                                 //local DB
 
